@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/alexflint/go-arg"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/context"
 	"github.com/kjelly/vimwiki-server/searcher"
@@ -9,8 +10,12 @@ import (
 )
 
 func main() {
+	var args struct {
+		Path string `arg:"required,positional"`
+	}
+	arg.MustParse(&args)
 	searcherEngine := searcher.New()
-	searcherEngine.BuildIndex("/home/kjelly/Dropbox/vimwiki/")
+	searcherEngine.BuildIndex(args.Path)
 
 	app := iris.New()
 	app.RegisterView(iris.HTML("./views", ".html"))
@@ -24,7 +29,7 @@ func main() {
 		ctx.View("test.html")
 	})
 	app.Get("/*", func(ctx context.Context) {
-		input, err := utils.ReadFile(ctx.Path())
+		input, err := utils.ReadFile(args.Path, ctx.Path())
 		if err != nil {
 			ctx.StatusCode(404)
 			ctx.WriteString(err.Error())

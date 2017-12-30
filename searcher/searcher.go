@@ -60,9 +60,7 @@ func (s *Searcher) BuildIndex(path string) error {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("path=%s\n", path)
 	filepath.Walk(path, func(p string, info os.FileInfo, err error) error {
-		fmt.Printf("path=%s\n", p)
 		if filepath.Ext(path) == "md" {
 			content, err := ReadFile(p)
 			fmt.Printf("%s\n", content)

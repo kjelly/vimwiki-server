@@ -2,7 +2,6 @@ package utils
 
 import (
 	"errors"
-	"fmt"
 	"github.com/russross/blackfriday"
 	"html/template"
 	"io/ioutil"
@@ -32,11 +31,7 @@ func getHomeDir() string {
 }
 
 // ReadFile todo
-func ReadFile(name string) (string, error) {
-	homeDir := getHomeDir()
-	basePath := filepath.Join(homeDir, "Dropbox/vimwiki/")
-	var fileList = walkDir(basePath)
-	fmt.Printf("%v\n", fileList)
+func ReadFile(basePath string, name string) (string, error) {
 	path := filepath.Join(basePath, name)
 	realPath, err := filepath.Abs(path)
 	if err != nil {
